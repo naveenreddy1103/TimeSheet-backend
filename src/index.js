@@ -4,10 +4,7 @@ const cors=require('cors')
 const dotenv=require('dotenv').config()
 const PORT=process.env.PORT || 1000
 const cookieParser=require('cookie-parser')
-app.use(cors({
-  origin: 'http://localhost:5173'||'https://timesheet-backend-2-z8g7.onrender.com',  // <-- Your frontend's origin
-  credentials: true                // <-- Required for cookies or auth headers
-}));
+app.use(cors());
 
 app.use(cookieParser())
 
