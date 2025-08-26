@@ -4,6 +4,7 @@ const cors=require('cors')
 const dotenv=require('dotenv').config()
 const PORT=process.env.PORT || 1000
 const cookieParser=require('cookie-parser')
+//cors
 app.use(cors());
 
 app.use(cookieParser())
