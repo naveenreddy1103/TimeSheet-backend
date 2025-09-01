@@ -9,6 +9,14 @@ const userSchema=new mongoose.Schema({
         min:3,
         max:25
     },
+    role:{
+        type:String,
+        required:true,
+        enum:{
+            values:["Software Developer","Data Analyst"],
+            message:`{VALUE} Incorrect Role`
+        }
+    },
     email:{
         type:String,
         required:true,

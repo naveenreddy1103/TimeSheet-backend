@@ -5,7 +5,6 @@ const dotenv=require('dotenv').config()
 const PORT=process.env.PORT || 1000
 const cookieParser=require('cookie-parser')
 app.use(cors());
-
 app.use(cookieParser())
 
 const dbConnect=require('./config/databaseConfig')

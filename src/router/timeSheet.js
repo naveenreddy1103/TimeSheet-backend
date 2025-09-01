@@ -1,11 +1,11 @@
 const express=require('express')
 const timeSheetRouter=express.Router()
 const TimeSheet=require('../models/timeSheet')
-const verifyToken=require('../middleware/verifyToken')
+const {userVerifyToken,adminVerifyToken}=require('../middleware/verifyToken')
 const {validateFeilds}=require('../utils/feildValidation')
 
 // creating new time sheet
-timeSheetRouter.post('/timesheet/create',verifyToken,async(req,res)=>{
+timeSheetRouter.post('/timesheet/create',userVerifyToken,async(req,res)=>{
     try{
         const timeSheetData=req.body
         const requiredFeilds=["userId","date","project","hoursWorked","notes"]
@@ -31,7 +31,7 @@ timeSheetRouter.post('/timesheet/create',verifyToken,async(req,res)=>{
 
 // edit time sheet
 
-timeSheetRouter.patch('/timesheet/edit/:id',verifyToken,async(req,res)=>{
+timeSheetRouter.patch('/timesheet/edit/:id',userVerifyToken,async(req,res)=>{
     try{
         const timeSheetId=req.params.id
         const requiredFeild=["project","hoursWorked","notes"]
@@ -53,7 +53,7 @@ timeSheetRouter.patch('/timesheet/edit/:id',verifyToken,async(req,res)=>{
 })
 
 // delete  time sheet
-timeSheetRouter.delete('/timesheet/delete/:id',verifyToken,async(req,res)=>{
+timeSheetRouter.delete('/timesheet/delete/:id',userVerifyToken,async(req,res)=>{
     try{
         const timeSheetId=req.params.id
        
@@ -72,8 +72,10 @@ timeSheetRouter.delete('/timesheet/delete/:id',verifyToken,async(req,res)=>{
     }
 })
 
+
+
 // getting sheet based on userId
-timeSheetRouter.get('/user/all/timesheet',verifyToken,async(req,res)=>{
+timeSheetRouter.get('/user/all/timesheet',userVerifyToken,async(req,res)=>{
     try{
         const userId=req.user
         const timeSheetData=await TimeSheet.find({userId:userId._id})
@@ -94,13 +96,13 @@ timeSheetRouter.get('/user/all/timesheet',verifyToken,async(req,res)=>{
         })
     }
 })
-// getting all time
-timeSheetRouter.get('/all/timesheet',verifyToken,async(req,res)=>{
+
+// getting sheet based on userId
+timeSheetRouter.get('/admin/timesheet/:id',adminVerifyToken,async(req,res)=>{
     try{
-        const userId=req.user
-        const timeSheetData=await TimeSheet.find()
+        const userId=req.params.id
+        const timeSheetData=await TimeSheet.find({userId:userId})
         .select("date project hoursWorked notes")
-        
         res.json({
             data:timeSheetData
         })
@@ -111,5 +113,6 @@ timeSheetRouter.get('/all/timesheet',verifyToken,async(req,res)=>{
         })
     }
 })
+
 
 module.exports=timeSheetRouter
