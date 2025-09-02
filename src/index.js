@@ -20,7 +20,7 @@ app.use('/',timeSheetRouter)
 
 
 dbConnect().then(()=>{
-    app.listen(PORT,'0.0.0.0',()=>{
+    app.listen(PORT,()=>{
     console.log("db connected")
     console.log(`http://127.0.0.1:${PORT}`)
 })
